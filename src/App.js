@@ -4,7 +4,8 @@ import './components/Header';
 import TopBar from './components/TopBar';
 import { Route, Routes } from 'react-router-dom';
 import Playlist from './components/Playlist';
-import { Container } from 'reactstrap';
+import { Container, Card, CardBody, CardTitle } from 'reactstrap';
+import { useState } from 'react';
 
 
 
@@ -15,17 +16,35 @@ import { Container } from 'reactstrap';
 // }; //return <div>{message}</div>;
 
 export default function App() {
+  // const [playlistSongs, setPlaylistSongs]= useState([
+  //   {id: 0,
+  //   name: 'Thriller'
+  //   }
+  // ])
+
   return (
     <>
+    
       <TopBar />
       <Container>
+        <Card>
+          <CardTitle className='mx-auto'>
+          Create A Playlist!
+          </CardTitle>
+          <hr/>
+          <CardBody>
+          <Playlist/>
+          </CardBody>
+
+        </Card>
+{/*         
         <Routes>
           <Route path="/" element={<Playlist />} />
-
-        </Routes>
+        
+        </Routes> */}
       </Container>
     </>
-  )
+  );
 
 }
 
