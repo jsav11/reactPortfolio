@@ -3,9 +3,9 @@ import './App.css';
 import './components/Header';
 import TopBar from './components/TopBar';
 import { Route, Routes } from 'react-router-dom';
-import Playlist from './components/Playlist';
 import { Container, Card, CardBody, CardTitle } from 'reactstrap';
 import { useState } from 'react';
+import Playlist from './components/Playlist';
 
 
 
