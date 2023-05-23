@@ -1,35 +1,49 @@
 import React, { useState } from 'react';
+import PlaylistForm from './PlaylistForm';
 
 export default function Playlist() {
-const [playlistSongs, setPlaylistSongs] = useState([
-   {id: 0, name: 'Thriller', artist: 'Michael Jackson', genre: 'Pop'},
-   {id: 1, name: 'Purple Haze', artist: 'Jimi Hendrix', genre: 'Rock'},
-   {id: 2, name: 'Send Love Through', artist: 'Debbie Harry', genre: 'Rock'},
-   {id: 3, name: '<demons>', artist: 'Kim Petras', genre: 'EDM'},
-   {id: 4, name: 'Church Outfit', artist: 'Poppy', genre: 'Industrial'}
-]);
+  const [playlistSongs, setPlaylistSongs] = useState([]);
 
-const handleDeleteSong = (songId) => {
-  setPlaylistSongs((prevSongs) =>
-    prevSongs.filter((song) => song.id !== songId)
-  );
-}
+  const Playlist = ({ playlist }) => {
+    return (
+      <div>
+        <h2>{playlist.name}</h2>
+        <ul>
+          {playlist.songs.map((song) => (
+            <li key={song.id}>{song.name}</li>
+          ))}
+        </ul>
+      </div>
+    );
+  };
 
+  const handleDeleteSong = (songId) => {
+    setPlaylistSongs((prevSongs) =>
+      prevSongs.filter((song) => song.id !== songId)
+    );
+  };
+  const addSong = (newSong) => {
+    setPlaylistSongs((prevSongs) => [...prevSongs, newSong]);
+  };
+  
   return (
     <div>
       <h2>My Playlist</h2>
       <ul>
         {playlistSongs.map((song) => (
-          <li key={song.id}>{song.name} by {song.artist} - Genre: {song.genre}
-          <button onClick={() => handleDeleteSong(song.id)}
-          style={{ borderRadius: '5px', margin: '5px', backgroundColor: 'red'}}
-          >
-           X</button>
+          <li key={song.id}>
+            {song.name} by {song.artist} - Genre: {song.genre}
+            <button
+              type='button'
+              className='btn btn-danger btn-sm mx-2 mt-1'
+              onClick={() => handleDeleteSong(song.id)}
+            >
+              X
+            </button>
           </li>
-       ))}
+        ))}
       </ul>
+      <PlaylistForm addSong={addSong} />
     </div>
   );
 }
-
-

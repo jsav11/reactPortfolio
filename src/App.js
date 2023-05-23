@@ -6,6 +6,10 @@ import { Route, Routes } from 'react-router-dom';
 import { Container, Card, CardBody, CardTitle } from 'reactstrap';
 import { useState } from 'react';
 import Playlist from './components/Playlist';
+import PlaylistForm from './components/PlaylistForm';
+import CreatePlaylistForm from './components/CreatePlaylistForm';
+import SongLibrary from './components/SongLibrary';
+
 
 
 
@@ -16,32 +20,40 @@ import Playlist from './components/Playlist';
 // }; //return <div>{message}</div>;
 
 export default function App() {
-  // const [playlistSongs, setPlaylistSongs]= useState([
-  //   {id: 0,
-  //   name: 'Thriller'
-  //   }
-  // ])
+  const [playlists, setPlaylists] = useState([]);
+
+  const createPlaylist = (playlistName) => {
+    const newPlaylist = {
+      id: Date.now(),
+      name: playlistName,
+      songs: []
+    };
+  
+    setPlaylists([...playlists, newPlaylist]);
+  };
 
   return (
     <>
-    
       <TopBar />
       <Container>
         <Card>
-          <CardTitle className='mx-auto'>
-          Create A Playlist!
-          </CardTitle>
-          <hr/>
+          <CardTitle className='mx-auto'>Create A Playlist!</CardTitle>
+        <CreatePlaylistForm createPlaylist={createPlaylist} />
+          <hr />
           <CardBody>
-          <Playlist/>
+            {playlists.map((playlist) => (
+              <Playlist key={playlist.id} playlist={playlist} />
+            ))}
           </CardBody>
-
+          <Card>
+            <CardBody>
+              <PlaylistForm />
+            </CardBody>
+          </Card>
         </Card>
-{/*         
-        <Routes>
-          <Route path="/" element={<Playlist />} />
-        
-        </Routes> */}
+        <Card>
+          <CardBody>Song Library Later</CardBody>
+        </Card>
       </Container>
     </>
   );
