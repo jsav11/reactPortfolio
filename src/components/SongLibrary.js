@@ -13,7 +13,7 @@ export default function SongLibrary() {
 
   return (
     <>
-      <TopBar />
+     
       <Container>
         <Card>
           <CardBody>
