@@ -1,34 +1,41 @@
 import React, { useState } from 'react';
+import { Card, CardTitle, CardBody } from 'reactstrap';
 import PlaylistForm from './PlaylistForm';
+import CreatePlaylistForm from './CreatePlaylistForm';
 
-export default function Playlist() {
-  const [playlistSongs, setPlaylistSongs] = useState([]);
+export default function PlaylistCard({ name, songs, addSong }) {
+  const [playlistSongs, setPlaylistSongs] = useState(songs);
 
-  const Playlist = ({ playlist }) => {
-    return (
-      <div>
-        <h2>{playlist.name}</h2>
-        <ul>
-          {playlist.songs.map((song) => (
-            <li key={song.id}>{song.name}</li>
-          ))}
-        </ul>
-      </div>
-    );
-  };
+  // const Playlist = ({name, songs }) => {
+  //   return (
+  //     <Card>
+  //       <CardTitle className="mx-auto">{name}</CardTitle>
+  //       <CardBody>
+  //         <ul>
+  //           {songs.map((song) => (
+  //             <li key={song.id}>
+  //               {song.name} by {song.artist} - Genre: {song.genre}
+  //             </li>
+  //           ))}
+  //         </ul>
+  //       </CardBody>
+  //     </Card>
+  //   );
+  // };
 
   const handleDeleteSong = (songId) => {
     setPlaylistSongs((prevSongs) =>
       prevSongs.filter((song) => song.id !== songId)
     );
   };
-  const addSong = (newSong) => {
+  const handleAddSong = (newSong) => {
     setPlaylistSongs((prevSongs) => [...prevSongs, newSong]);
+    addSong(newSong);
   };
   
   return (
     <div>
-      <h2>My Playlist</h2>
+      <h2>{name}</h2>
       <ul>
         {playlistSongs.map((song) => (
           <li key={song.id}>
@@ -43,7 +50,7 @@ export default function Playlist() {
           </li>
         ))}
       </ul>
-      <PlaylistForm addSong={addSong} />
+      <PlaylistForm addSong={handleAddSong} />
     </div>
   );
 }

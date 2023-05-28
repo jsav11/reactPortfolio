@@ -2,11 +2,12 @@ import logo from './logo.svg';
 import './App.css';
 import './components/Header';
 import TopBar from './components/TopBar';
-import { Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Container, Card, CardBody, CardTitle } from 'reactstrap';
 import { useState } from 'react';
 import Playlist from './components/Playlist';
 import PlaylistForm from './components/PlaylistForm';
+import PlaylistCard from './components/Playlist';
 import CreatePlaylistForm from './components/CreatePlaylistForm';
 import SongLibrary from './components/SongLibrary';
 
@@ -28,39 +29,50 @@ export default function App() {
       name: playlistName,
       songs: []
     };
-  
+
     setPlaylists([...playlists, newPlaylist]);
   };
 
+  const addSong = (playlistId, newSong) => {
+    setPlaylists((prevPlaylists) =>
+      prevPlaylists.map((playlist) => {
+        if (playlist.id === playlistId) {
+          return {
+            ...playlist,
+            songs: [...playlist.songs, newSong]
+          };
+        }
+        return playlist;
+      })
+    );
+  };
+
   return (
-    <>
+    <Router>
       <TopBar />
       <Container>
         <Card>
           <CardTitle className='mx-auto'>Create A Playlist!</CardTitle>
-        <CreatePlaylistForm createPlaylist={createPlaylist} />
+          <CreatePlaylistForm createPlaylist={createPlaylist} />
           <hr />
           <CardBody>
             {playlists.map((playlist) => (
-              <Playlist key={playlist.id} playlist={playlist} />
+              <PlaylistCard
+                key={playlist.id}
+                name={playlist.name}
+                songs={playlist.songs}
+                addSong={addSong}
+              />
             ))}
           </CardBody>
-          <Card>
-            <CardBody>
-              <PlaylistForm />
-            </CardBody>
-          </Card>
-        </Card>
-        <Card>
-          <CardBody>Song Library Later</CardBody>
         </Card>
       </Container>
-    </>
+      <Routes>
+        <Route path="/library" element={<SongLibrary />} />
+      </Routes>
+    </Router>
   );
-
 }
-
-
 
 
 
